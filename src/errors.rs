@@ -5,6 +5,8 @@ pub enum MyProgramError {
     InvalidInstructionData,
     PdaMismatch,
     InvalidOwner,
+    InvalidAccountData,
+    InsufficientFunds
 }
 
 impl From<MyProgramError> for ProgramError {

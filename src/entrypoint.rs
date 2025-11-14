@@ -24,9 +24,13 @@ fn process_instruction(
         .ok_or(ProgramError::InvalidInstructionData)?;
 
     match ProgramInstruction::try_from(ix_disc)? {
-        ProgramInstruction::InitializeState => {
-            msg!("initialize");
-            instructions::initialize(accounts, instruction_data)
+        ProgramInstruction::ClaimTokens => {
+            msg!("Claim");
+            instructions::claim(accounts, instruction_data)
+        },
+        ProgramInstruction::ED25519Call => {
+            msg!("ED25519 Verify");
+            instructions::ed25519_call(accounts, instruction_data)
         }
     }
 }

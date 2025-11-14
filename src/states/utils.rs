@@ -1,10 +1,15 @@
-use pinocchio::program_error::ProgramError;
-
+use pinocchio::{program_error::ProgramError, pubkey::Pubkey};
 use crate::errors::MyProgramError;
 
+pub const HEADER_LEN: usize = 16;
+pub const PUBKEY_LEN: usize = 32;
+pub const SIG_LEN: usize = 64;
+pub const MSG_LEN: usize = 40;
 pub trait DataLen {
     const LEN: usize;
 }
+
+
 
 #[inline(always)]
 pub unsafe fn load_acc_unchecked<T: DataLen>(bytes: &[u8]) -> Result<&T, ProgramError> {
