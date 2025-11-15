@@ -1,10 +1,11 @@
 use pinocchio::{
     account_info::AccountInfo,
+    instruction::Instruction,
+    program::invoke,
     ProgramResult,
 };
-use solana_program::program::invoke;
-use crate::states::{utils::load_ix_data, DataLen};
 use solana_ed25519_program::new_ed25519_instruction_with_signature;
+use crate::states::{utils::load_ix_data, DataLen};
 
 
 pub struct Ed25519CallData {
@@ -29,7 +30,13 @@ pub fn ed25519_call(_accounts: &[AccountInfo], data: &[u8]) -> ProgramResult {
     );
 
     // Invoke the ed25519 program CPI
-   invoke(&ed25519_instruction, &[]).map_err(|_| pinocchio::program_error::ProgramError::Custom(0))?;
+    let ix_instruction = Instruction {
+        program_id: ed25519_instruction.program_id.as_array(),
+        accounts: &[].to_vec(),
+        data: &ed25519_instruction.data,
+    };
 
+    invoke(&ix_instruction, &[])?;
     Ok(())
 }
+
